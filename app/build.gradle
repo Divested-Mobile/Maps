@@ -7,12 +7,20 @@ android {
         applicationId "us.spotco.maps"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 3
+        versionCode 4
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            minifyEnabled true
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
         release {
-            minifyEnabled false
+            shrinkResources false
+            minifyEnabled true
+            useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
