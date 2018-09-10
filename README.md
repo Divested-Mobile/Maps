@@ -9,7 +9,7 @@ Features
 --------
 - Clears private data on close
 - Blocks access to Google trackers and other third-party resources
-- Restricts all network requests to HTTPs
+- Restricts all network requests to HTTPS
 - Allows toggling of location permission
 
 Downsides
