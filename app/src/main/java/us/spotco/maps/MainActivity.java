@@ -16,9 +16,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package us.spotco.maps;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
