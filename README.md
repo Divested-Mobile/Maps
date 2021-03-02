@@ -15,3 +15,7 @@ Features
 Downsides
 ---------
 Navigation is not available, only turn-by-turn direction list
+
+Credits
+-------
+- Icons (Apache-2.0): Google/Android/AOSP
