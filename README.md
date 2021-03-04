@@ -18,4 +18,4 @@ Navigation is not available, only turn-by-turn direction list
 
 Credits
 -------
-- Icons (Apache-2.0): Google/Android/AOSP
+- Icons: Google/Android/AOSP, License: Apache 2.0, https://google.github.io/material-design-icons/

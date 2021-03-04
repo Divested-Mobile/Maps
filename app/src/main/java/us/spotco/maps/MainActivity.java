@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if(!request.getUrl().toString().startsWith("https://")) {
                     Log.d("Maps", "[NON-HTTPS] Blocked access to " + request.getUrl().toString());
-                    return true; //Deny non HTTPS
+                    return true; //Deny URLs that aren't HTTPS
                 }
                 boolean allowed = false;
                 for (String url : allowedDomains) {
@@ -70,20 +70,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if(!allowed) {
-                    Log.d("Maps", "[NOT WHITELISTED] Blocked access to " + request.getUrl().getHost());
-                    return true;//Deny non-whitelisted domains
+                    Log.d("Maps", "[NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
+                    return true;//Deny URLs not on ALLOWLIST
                 }
                 for (String url : blockedURLs) {
                     if (request.getUrl().toString().contains(url)) {
-                        Log.d("Maps", "[BLACKLISTED] Blocked access to " + request.getUrl().toString());
-                        return true;//Deny blacklisted URLs
+                        Log.d("Maps", "[ON DENYLIST] Blocked access to " + request.getUrl().toString());
+                        return true;//Deny URLs on DENYLIST
                     }
                 }
                 return false;
             }
         });
 
-        //Give lcoation access
+        //Give location access
         mapsWebView.setWebChromeClient(new WebChromeClient() {
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
                 if(origin.contains("google.com")) {
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         mapsWebSettings.setDisplayZoomControls(false);
         mapsWebSettings.setDomStorageEnabled(false);
         //Change the User-Agent
-        mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 6.0.1; Nexus 6P Build/MHC19Q) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.89 Mobile Safari/537.36");
+        mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 10; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.207 Mobile Safari/537.36");
 
         //Load Google Maps
         mapsWebView.loadUrl("https://www.google.com/maps");
@@ -125,15 +125,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void initURLs() {
-        //Whitelisted Domains
+        //Allowed Domains
         allowedDomains.add("apis.google.com");
-        //allowedDomains.add("fonts.gstatic.com");
+        allowedDomains.add("fonts.gstatic.com");
         allowedDomains.add("maps.gstatic.com");
         allowedDomains.add("ssl.gstatic.com");
         allowedDomains.add("www.google.com");
         allowedDomains.add("www.gstatic.com");
 
-        //Blacklisted Domains
+        //Blocked Domains
         blockedURLs.add("analytics.google.com");
         blockedURLs.add("clientmetrics-pa.googleapis.com");
         blockedURLs.add("doubleclick.com");
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         blockedURLs.add("wintricksbanner.googlepages.com");
         blockedURLs.add("www-google-analytics.l.google.com");
 
-        //Blacklisted URLs
+        //Blocked URLs
         blockedURLs.add("google.com/maps/preview/log204");
         blockedURLs.add("google.com/gen_204");
     }
