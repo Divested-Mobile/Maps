@@ -1,0 +1,1 @@
+This is a restricted WebView wrapper for accessing the web version of Google Maps. Intended for use when OpenStreetMap isn't enough.
