@@ -5,6 +5,10 @@ Overview
 --------
 GMaps WV is a WebView wrapper for using Google Maps without exposing your device.
 
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/us.spotco.maps/)
+
 Features
 --------
 - Clears private data on close
