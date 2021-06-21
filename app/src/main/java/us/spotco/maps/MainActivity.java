@@ -16,8 +16,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package us.spotco.maps;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
@@ -70,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
         mapsWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (request.getUrl().toString().startsWith("tel:")) {
+                    Intent dial = new Intent(Intent.ACTION_DIAL, request.getUrl());
+                    startActivity(dial);
+                    return true;
+                }
                 if (!request.getUrl().toString().startsWith("https://")) {
                     Log.d("Maps", "[NON-HTTPS] Blocked access to " + request.getUrl().toString());
                     return true; //Deny URLs that aren't HTTPS
@@ -129,6 +136,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         resetWebView();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //Credit (CC BY-SA 3.0): https://stackoverflow.com/a/6077173
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_BACK:
+                    if (mapsWebView.canGoBack()) {
+                        mapsWebView.goBack();
+                    } else {
+                        finish();
+                    }
+                    return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void resetWebView() {
