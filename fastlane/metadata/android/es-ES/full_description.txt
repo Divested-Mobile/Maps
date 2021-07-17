@@ -1,0 +1,1 @@
+Esta es un contenedor WebView restringido para acceder a la versión web de Google Maps. Está pensado para usarlo cuando OpenStreetMap no es suficiente.
