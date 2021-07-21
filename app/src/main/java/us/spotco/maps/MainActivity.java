@@ -17,6 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package us.spotco.maps;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +32,8 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_main);
+
+        String url = "https://www.google.com/maps";
+        String TAG = "gmapswv";
+
+        try {
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            Uri data = intent.getData();
+            url = data.toString();
+            Log.d(TAG, url);
+        }
+        catch (Exception e) {
+            Log.d(TAG, "No or Invalid URL passed. Opening homepage instead.");
+        }
 
         //Create the WebView
         mapsWebView = (WebView) findViewById(R.id.mapsWebView);
@@ -129,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 11; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36");
 
         //Load Google Maps
-        mapsWebView.loadUrl("https://www.google.com/maps");
+        mapsWebView.loadUrl(url);
     }
 
     @Override
