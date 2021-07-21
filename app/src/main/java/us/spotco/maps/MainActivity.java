@@ -32,8 +32,6 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,12 +56,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         String urlToLoad = "https://www.google.com/maps";
-
         try {
             Intent intent = getIntent();
-            String action = intent.getAction();
             Uri data = intent.getData();
             urlToLoad = data.toString();
+            if (data.toString().startsWith("https://")) {
+                urlToLoad = data.toString();
+            } else if (data.toString().startsWith("geo:")) {
+                urlToLoad = "https://www.google.com/maps/place/" + data.toString().substring(4);
+            }
         } catch (Exception e) {
             Log.d(TAG, "No or Invalid URL passed. Opening homepage instead.");
         }
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mapsCookieManager.setAcceptThirdPartyCookies(mapsWebView, false);
 
         //Delete anything from previous sessions
-        resetWebView();
+        resetWebView(false);
 
         //Set the consent cookie to prevent unnecessary redirections
         setConsentCookie();
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         mapsWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                if (request.getUrl().toString().equals("about:blank")) {
+                    return false;
+                }
                 if (request.getUrl().toString().startsWith("tel:")) {
                     Intent dial = new Intent(Intent.ACTION_DIAL, request.getUrl());
                     startActivity(dial);
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 boolean allowed = false;
                 for (String url : allowedDomains) {
-                    if (request.getUrl().getHost().contains(url)) {
+                    if (request.getUrl().getHost().startsWith("https://" + url)) {
                         allowed = true;
                     }
                 }
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        resetWebView();
+        resetWebView(true);
     }
 
     @Override
@@ -159,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if (mapsWebView.canGoBack()) {
+                    if (mapsWebView.canGoBack() && !mapsWebView.getUrl().equals("about:blank")) {
                         mapsWebView.goBack();
                     } else {
                         finish();
@@ -170,13 +174,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    private void resetWebView() {
+    private void resetWebView(boolean exit) {
+        if (exit) {
+            mapsWebView.loadUrl("about:blank");
+            mapsWebView.removeAllViews();
+            mapsWebSettings.setJavaScriptEnabled(false);
+        }
         //mapsWebView.clearCache(true);
         mapsWebView.clearFormData();
         mapsWebView.clearHistory();
         mapsWebView.clearMatches();
         mapsWebView.clearSslPreferences();
+        mapsCookieManager.removeSessionCookie();
         mapsCookieManager.removeAllCookie();
+        if (exit) {
+            mapsWebView.destroyDrawingCache();
+            mapsWebView.destroy();
+            mapsWebView = null;
+        }
     }
 
     private void setConsentCookie() {
