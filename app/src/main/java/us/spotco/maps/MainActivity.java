@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private static ArrayList<String> blockedURLs = new ArrayList<String>();
 
     private static final DateFormat consentDateFormat = new SimpleDateFormat("yyyyMMdd");
+    private static final String TAG = "GMapsWV";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +57,14 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_main);
 
-        String url = "https://www.google.com/maps";
-        String TAG = "gmapswv";
+        String urlToLoad = "https://www.google.com/maps";
 
         try {
             Intent intent = getIntent();
             String action = intent.getAction();
             Uri data = intent.getData();
-            url = data.toString();
-            Log.d(TAG, url);
-        }
-        catch (Exception e) {
+            urlToLoad = data.toString();
+        } catch (Exception e) {
             Log.d(TAG, "No or Invalid URL passed. Opening homepage instead.");
         }
 
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 if (!request.getUrl().toString().startsWith("https://")) {
-                    Log.d("Maps", "[NON-HTTPS] Blocked access to " + request.getUrl().toString());
+                    Log.d(TAG, "[NON-HTTPS] Blocked access to " + request.getUrl().toString());
                     return true; //Deny URLs that aren't HTTPS
                 }
                 boolean allowed = false;
@@ -105,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (!allowed) {
-                    Log.d("Maps", "[NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
+                    Log.d(TAG, "[NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
                     return true;//Deny URLs not on ALLOWLIST
                 }
                 for (String url : blockedURLs) {
                     if (request.getUrl().toString().contains(url)) {
-                        Log.d("Maps", "[ON DENYLIST] Blocked access to " + request.getUrl().toString());
+                        Log.d(TAG, "[ON DENYLIST] Blocked access to " + request.getUrl().toString());
                         return true;//Deny URLs on DENYLIST
                     }
                 }
@@ -146,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 11; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36");
 
         //Load Google Maps
-        mapsWebView.loadUrl(url);
+        mapsWebView.loadUrl(urlToLoad);
     }
 
     @Override
