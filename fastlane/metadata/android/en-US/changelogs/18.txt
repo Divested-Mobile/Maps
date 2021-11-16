@@ -1,0 +1,5 @@
+* Add support for urls sent via intents, credit @accountForIssues
+* handle geo: links
+* improve start/exit webview clearing
+* formatting
+* bump versions

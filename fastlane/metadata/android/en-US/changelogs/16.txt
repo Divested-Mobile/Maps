@@ -1,0 +1,1 @@
+* Handle back button and tel: links
