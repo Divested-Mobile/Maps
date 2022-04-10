@@ -26,6 +26,7 @@ import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         mapsWebSettings.setDomStorageEnabled(false);
         mapsWebSettings.setSaveFormData(false);
         //Change the User-Agent
-        mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 11; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.82 Mobile Safari/537.36");
+        mapsWebSettings.setUserAgentString("Mozilla/5.0 (Linux; Android 12; Unspecified Device) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.79 Mobile Safari/537.36");
 
         //Load Google Maps
         mapsWebView.loadUrl(urlToLoad);
@@ -187,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
         mapsWebView.clearSslPreferences();
         mapsCookieManager.removeSessionCookie();
         mapsCookieManager.removeAllCookie();
+        CookieManager.getInstance().removeAllCookies(null);
+        CookieManager.getInstance().flush();
+        WebStorage.getInstance().deleteAllData();
         if (exit) {
             mapsWebView.destroyDrawingCache();
             mapsWebView.destroy();

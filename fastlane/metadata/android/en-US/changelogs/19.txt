@@ -1,0 +1,2 @@
+* Fixed cases where data was not cleared
+* Updated User-Agent
