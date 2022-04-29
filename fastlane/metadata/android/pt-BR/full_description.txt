@@ -1,0 +1,1 @@
+A camada adicional de proteção para acessar a versão online de mapas do Google. Feito para ser usado quando o OpenStreetMap não é suficiente.
