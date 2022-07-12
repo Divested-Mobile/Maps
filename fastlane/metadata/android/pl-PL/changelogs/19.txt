@@ -1,0 +1,2 @@
+* Naprawiono przypadki, gdy dane nie były usuwane
+* Zaktualizowano User-Agent

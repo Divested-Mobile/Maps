@@ -1,0 +1,1 @@
+* Obsługa przycisku wstecz i odnośników tel:

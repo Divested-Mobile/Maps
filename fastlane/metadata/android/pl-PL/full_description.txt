@@ -1,0 +1,1 @@
+Jest to ograniczona nakładka WebView, pozwalająca na korzystanie z webowej wersji Google Maps. Jest przeznaczona do wykorzystywania, gdy OpenStreetMap nie wystarczy.
