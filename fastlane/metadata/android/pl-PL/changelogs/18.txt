@@ -1,0 +1,5 @@
+* Dodano obsługę adresów wysyłanych przez Intencje, autorstwa @accountForIssues
+* Obsługa linków geo:
+* Usprawnienie czyszczenia WebView przy uruchomieniu/wyjściu
+* Formatowanie
+* Podbicie wersji
