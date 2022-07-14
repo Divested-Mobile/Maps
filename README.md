@@ -23,6 +23,8 @@ Navigation is not available, only turn-by-turn direction list
 Credits
 -------
 - Diego Sanguinetti for the Spanish fastlane metadata
+- Marcin Mikołajczak for the Polish fastlane metadata
+- @ruanon for the Brazilian Portuguese fastlane metadata
 - R Raj for the sharing intent support
 - Icons: Google/Android/AOSP, License: Apache 2.0, https://google.github.io/material-design-icons/
 
