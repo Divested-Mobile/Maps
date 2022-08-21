@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         mapsWebSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         mapsWebSettings.setGeolocationEnabled(true);
         //Disable some WebView features
-        mapsWebSettings.setAppCacheEnabled(false);
         mapsWebSettings.setAllowContentAccess(false);
         mapsWebSettings.setAllowFileAccess(false);
         mapsWebSettings.setBuiltInZoomControls(false);
