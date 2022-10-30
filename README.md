@@ -22,6 +22,7 @@ Navigation is not available, only turn-by-turn direction list
 
 Credits
 -------
+- @woheller69 for discovering that page loaded resources weren't being blocked
 - Diego Sanguinetti for the Spanish fastlane metadata
 - Marcin Mikołajczak for the Polish fastlane metadata
 - @ruanon for the Brazilian Portuguese fastlane metadata

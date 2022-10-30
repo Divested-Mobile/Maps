@@ -25,6 +25,7 @@ import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private CookieManager mapsCookieManager = null;
 
     private static ArrayList<String> allowedDomains = new ArrayList<String>();
+    private static ArrayList<String> allowedDomainsStart = new ArrayList<String>();
+    private static ArrayList<String> allowedDomainsEnd = new ArrayList<String>();
     private static ArrayList<String> blockedURLs = new ArrayList<String>();
 
     private static final DateFormat consentDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -87,6 +90,48 @@ public class MainActivity extends AppCompatActivity {
         //Restrict what gets loaded
         initURLs();
         mapsWebView.setWebViewClient(new WebViewClient() {
+            //Keep these in sync!
+            @Override
+            public WebResourceResponse shouldInterceptRequest(final WebView view, WebResourceRequest request) {
+                if (request.getUrl().toString().equals("about:blank")) {
+                    return null;
+                }
+                if (!request.getUrl().toString().startsWith("https://")) {
+                    Log.d(TAG, "[shouldInterceptRequest][NON-HTTPS] Blocked access to " + request.getUrl().toString());
+                    return new WebResourceResponse("text/javascript", "UTF-8", null); //Deny URLs that aren't HTTPS
+                }
+                boolean allowed = false;
+                for (String url : allowedDomains) {
+                    if (request.getUrl().getHost().equals(url)) {
+                        allowed = true;
+                    }
+                }
+                for (String url : allowedDomainsStart) {
+                    if (request.getUrl().getHost().startsWith(url)) {
+                        allowed = true;
+                    }
+                }
+                for (String url : allowedDomainsEnd) {
+                    if (request.getUrl().getHost().endsWith(url)) {
+                        allowed = true;
+                    }
+                }
+                if (!allowed) {
+                    Log.d(TAG, "[shouldInterceptRequest][NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
+                    return new WebResourceResponse("text/javascript", "UTF-8", null); //Deny URLs not on ALLOWLIST
+                }
+                for (String url : blockedURLs) {
+                    if (request.getUrl().toString().contains(url)) {
+                        if(request.getUrl().toString().contains("/log204?")) {
+                            Log.d(TAG, "[shouldInterceptRequest][ON DENYLIST] Blocked access to a log204 request");
+                        } else {
+                            Log.d(TAG, "[shouldInterceptRequest][ON DENYLIST] Blocked access to " + request.getUrl().toString());
+                        }
+                        return new WebResourceResponse("text/javascript", "UTF-8", null); //Deny URLs on DENYLIST
+                    }
+                }
+                return null;
+            }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if (request.getUrl().toString().equals("about:blank")) {
@@ -98,23 +143,33 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 if (!request.getUrl().toString().startsWith("https://")) {
-                    Log.d(TAG, "[NON-HTTPS] Blocked access to " + request.getUrl().toString());
+                    Log.d(TAG, "[shouldOverrideUrlLoading][NON-HTTPS] Blocked access to " + request.getUrl().toString());
                     return true; //Deny URLs that aren't HTTPS
                 }
                 boolean allowed = false;
                 for (String url : allowedDomains) {
-                    if (request.getUrl().getHost().startsWith("https://" + url)) {
+                    if (request.getUrl().getHost().equals(url)) {
+                        allowed = true;
+                    }
+                }
+                for (String url : allowedDomainsStart) {
+                    if (request.getUrl().getHost().startsWith(url)) {
+                        allowed = true;
+                    }
+                }
+                for (String url : allowedDomainsEnd) {
+                    if (request.getUrl().getHost().endsWith(url)) {
                         allowed = true;
                     }
                 }
                 if (!allowed) {
-                    Log.d(TAG, "[NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
-                    return true;//Deny URLs not on ALLOWLIST
+                    Log.d(TAG, "[shouldOverrideUrlLoading][NOT ON ALLOWLIST] Blocked access to " + request.getUrl().getHost());
+                    return true; //Deny URLs not on ALLOWLIST
                 }
                 for (String url : blockedURLs) {
                     if (request.getUrl().toString().contains(url)) {
-                        Log.d(TAG, "[ON DENYLIST] Blocked access to " + request.getUrl().toString());
-                        return true;//Deny URLs on DENYLIST
+                        Log.d(TAG, "[shouldOverrideUrlLoading][ON DENYLIST] Blocked access to " + request.getUrl().toString());
+                        return true; //Deny URLs on DENYLIST
                     }
                 }
                 return false;
@@ -212,14 +267,17 @@ public class MainActivity extends AppCompatActivity {
         //Allowed Domains
         allowedDomains.add("apis.google.com");
         allowedDomains.add("fonts.gstatic.com");
+        allowedDomains.add("maps.google.com");
         allowedDomains.add("maps.gstatic.com");
         allowedDomains.add("ssl.gstatic.com");
         allowedDomains.add("www.google.com");
         allowedDomains.add("www.gstatic.com");
         allowedDomains.add("consent.google.com");
-        allowedDomains.add("consent.google."); //TODO: better cctld handling
         allowedDomains.add("consent.youtube.com"); //XXX: Maybe not required?
         allowedDomains.add("maps.google.com");
+        allowedDomains.add("streetviewpixels-pa.googleapis.com");
+        allowedDomainsStart.add("consent.google."); //TODO: better cctld handling
+        allowedDomainsEnd.add(".googleusercontent.com");
 
         //Blocked Domains
         blockedURLs.add("analytics.google.com");
@@ -236,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         blockedURLs.add("wintricksbanner.googlepages.com");
         blockedURLs.add("www-google-analytics.l.google.com");
         blockedURLs.add("gstaticadssl.l.google.com");
+        blockedURLs.add("csp.withgoogle.com");
 
         //Blocked URLs
         blockedURLs.add("google.com/maps/preview/log204");
@@ -243,6 +302,5 @@ public class MainActivity extends AppCompatActivity {
         blockedURLs.add("play.google.com/log");
         blockedURLs.add("/gen_204?");
         blockedURLs.add("/log204?");
-
     }
 }
