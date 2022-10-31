@@ -6,7 +6,7 @@ android {
         applicationId "us.spotco.maps"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 25
+        versionCode 26
         versionName "1.6"
         resConfigs 'en'
     }

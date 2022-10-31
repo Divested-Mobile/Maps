@@ -275,6 +275,10 @@ public class MainActivity extends AppCompatActivity {
         allowedDomains.add("consent.google.com");
         allowedDomains.add("consent.youtube.com"); //XXX: Maybe not required?
         allowedDomains.add("maps.google.com");
+        allowedDomains.add("khms0.google.com");
+        allowedDomains.add("khms1.google.com");
+        allowedDomains.add("khms2.google.com");
+        allowedDomains.add("khms3.google.com");
         allowedDomains.add("streetviewpixels-pa.googleapis.com");
         allowedDomainsStart.add("consent.google."); //TODO: better cctld handling
         allowedDomainsEnd.add(".googleusercontent.com");
