@@ -16,14 +16,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package us.spotco.maps;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
-import android.webkit.GeolocationPermissions;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -31,32 +33,33 @@ import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private WebView mapsWebView = null;
     private WebSettings mapsWebSettings = null;
     private CookieManager mapsCookieManager = null;
 
-    private static ArrayList<String> allowedDomains = new ArrayList<String>();
-    private static ArrayList<String> allowedDomainsStart = new ArrayList<String>();
-    private static ArrayList<String> allowedDomainsEnd = new ArrayList<String>();
-    private static ArrayList<String> blockedURLs = new ArrayList<String>();
+    private static final ArrayList<String> allowedDomains = new ArrayList<String>();
+    private static final ArrayList<String> allowedDomainsStart = new ArrayList<String>();
+    private static final ArrayList<String> allowedDomainsEnd = new ArrayList<String>();
+    private static final ArrayList<String> blockedURLs = new ArrayList<String>();
 
     private static final DateFormat consentDateFormat = new SimpleDateFormat("yyyyMMdd");
     private static final String TAG = "GMapsWV";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            setTheme(android.R.style.Theme_DeviceDefault_DayNight);
+        }
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         setContentView(R.layout.activity_main);
 
         String urlToLoad = "https://www.google.com/maps";
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Create the WebView
-        mapsWebView = (WebView) findViewById(R.id.mapsWebView);
+        mapsWebView = findViewById(R.id.mapsWebView);
 
         //Set cookie options
         mapsCookieManager = CookieManager.getInstance();
@@ -176,21 +179,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Give location access
-        mapsWebView.setWebChromeClient(new WebChromeClient() {
-            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                if (origin.contains("google.com")) {
-                    callback.invoke(origin, true, false);
-                }
-            }
-        });
-
         //Set more options
         mapsWebSettings = mapsWebView.getSettings();
         //Enable some WebView features
         mapsWebSettings.setJavaScriptEnabled(true);
         mapsWebSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        mapsWebSettings.setGeolocationEnabled(true);
+        mapsWebSettings.setGeolocationEnabled(false);
         //Disable some WebView features
         mapsWebSettings.setAllowContentAccess(false);
         mapsWebSettings.setAllowFileAccess(false);
