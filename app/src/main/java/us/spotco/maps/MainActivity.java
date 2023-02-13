@@ -16,8 +16,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 package us.spotco.maps;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,12 +33,18 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.GeolocationPermissions;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,6 +56,8 @@ public class MainActivity extends Activity {
     private WebView mapsWebView = null;
     private WebSettings mapsWebSettings = null;
     private CookieManager mapsCookieManager = null;
+    private Context context = this;
+    private LocationManager locationManager;
 
     private static final ArrayList<String> allowedDomains = new ArrayList<String>();
     private static final ArrayList<String> allowedDomainsStart = new ArrayList<String>();
@@ -51,6 +66,24 @@ public class MainActivity extends Activity {
 
     private static final DateFormat consentDateFormat = new SimpleDateFormat("yyyyMMdd");
     private static final String TAG = "GMapsWV";
+    private static LocationListener locationListenerGPS;
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (locationListenerGPS!=null) removeLocationListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        locationListenerGPS = getNewLocationListener();
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +125,35 @@ public class MainActivity extends Activity {
 
         //Restrict what gets loaded
         initURLs();
+
+        //Give location access
+        mapsWebView.setWebChromeClient(new WebChromeClient() {
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.title_location_permission)
+                            .setMessage(R.string.text_location_permission)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //Prompt the user once explanation has been shown
+                                    ActivityCompat.requestPermissions(MainActivity.this,
+                                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                                            100);
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    Toast.makeText(context,R.string.error_no_gps,Toast.LENGTH_LONG).show();
+                }
+                if (origin.contains("google.com")) {
+                    callback.invoke(origin, true, false);
+                }
+            }
+        });
+
         mapsWebView.setWebViewClient(new WebViewClient() {
             //Keep these in sync!
             @Override
@@ -184,7 +246,7 @@ public class MainActivity extends Activity {
         //Enable some WebView features
         mapsWebSettings.setJavaScriptEnabled(true);
         mapsWebSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        mapsWebSettings.setGeolocationEnabled(false);
+        mapsWebSettings.setGeolocationEnabled(true);
         //Disable some WebView features
         mapsWebSettings.setAllowContentAccess(false);
         mapsWebSettings.setAllowFileAccess(false);
@@ -300,5 +362,34 @@ public class MainActivity extends Activity {
         blockedURLs.add("play.google.com/log");
         blockedURLs.add("/gen_204?");
         blockedURLs.add("/log204?");
+    }
+
+    private LocationListener getNewLocationListener() {
+        return new LocationListener() {
+            @Override
+            public void onLocationChanged(android.location.Location location) {
+            }
+
+            @Deprecated
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+            }
+        };
+    }
+
+    private void removeLocationListener() {
+        if (locationListenerGPS!=null) {
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            if (locationListenerGPS!=null) locationManager.removeUpdates(locationListenerGPS);
+        }
+        locationListenerGPS=null;
     }
 }
