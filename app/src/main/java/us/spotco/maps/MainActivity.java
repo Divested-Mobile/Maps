@@ -405,7 +405,7 @@ public class MainActivity extends Activity {
         clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
             @Override
             public void onPrimaryClipChanged() {
-                String url = clipboard.getPrimaryClip().toString();
+                String url = mapsWebView.getUrl();
                 String regex = "@(-?d*\\d+.\\d+),(-?d*\\d+.\\d+)";
                 Pattern p = Pattern.compile(regex);
                 Matcher m = p.matcher(url);
