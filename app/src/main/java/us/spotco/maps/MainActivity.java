@@ -19,6 +19,8 @@ package us.spotco.maps;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +52,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
 
@@ -125,6 +129,9 @@ public class MainActivity extends Activity {
 
         //Restrict what gets loaded
         initURLs();
+
+        //Lister for Link sharing
+        initShareLinkListener();
 
         //Give location access
         mapsWebView.setWebChromeClient(new WebChromeClient() {
@@ -391,5 +398,26 @@ public class MainActivity extends Activity {
             if (locationListenerGPS!=null) locationManager.removeUpdates(locationListenerGPS);
         }
         locationListenerGPS=null;
+    }
+
+    private void initShareLinkListener(){
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+            @Override
+            public void onPrimaryClipChanged() {
+                String url = clipboard.getPrimaryClip().toString();
+                String regex = "@(-?d*\\d+.\\d+),(-?d*\\d+.\\d+)";
+                Pattern p = Pattern.compile(regex);
+                Matcher m = p.matcher(url);
+                if (m.find()) {
+                    String latlon = m.group(1) + "," + m.group(2);
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latlon + "?q=" + latlon)));
+                    } catch (ActivityNotFoundException ignored) {
+                        Toast.makeText(context, R.string.no_app_installed, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
     }
 }
