@@ -75,6 +75,8 @@
                 <data android:scheme="geo" />
             </intent-filter>
         </activity>
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true" />
     </application>
 
 </manifest>
