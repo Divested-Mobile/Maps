@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
                 if (canUseLocation) {
                     if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        if(locationRequestCount < 3) { //Don't annoy the user
+                        if(locationRequestCount < 2) { //Don't annoy the user
                             new AlertDialog.Builder(context)
                                     .setTitle(R.string.title_location_permission)
                                     .setMessage(R.string.text_location_permission)
