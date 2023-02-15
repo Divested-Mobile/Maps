@@ -6,8 +6,8 @@ android {
         applicationId "us.spotco.maps"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 28
-        versionName "1.7"
+        versionCode 30
+        versionName "1.8"
         resConfigs 'en'
     }
     buildTypes {
@@ -29,5 +29,4 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.5.1'
 }

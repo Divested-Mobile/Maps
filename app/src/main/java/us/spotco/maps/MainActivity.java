@@ -45,9 +45,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,21 +68,25 @@ public class MainActivity extends Activity {
     private static final DateFormat consentDateFormat = new SimpleDateFormat("yyyyMMdd");
     private static final String TAG = "GMapsWV";
     private static LocationListener locationListenerGPS;
+    private static final boolean canUseLocation = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    private static int locationRequestCount = 0;
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (locationListenerGPS != null) removeLocationListener();
+        if (canUseLocation && locationListenerGPS != null) removeLocationListener();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        locationListenerGPS = getNewLocationListener();
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
+        if (canUseLocation) {
+            locationListenerGPS = getNewLocationListener();
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListenerGPS);
+            }
         }
     }
 
@@ -136,24 +137,28 @@ public class MainActivity extends Activity {
         //Give location access
         mapsWebView.setWebChromeClient(new WebChromeClient() {
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(R.string.title_location_permission)
-                            .setMessage(R.string.text_location_permission)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    //Prompt the user once explanation has been shown
-                                    ActivityCompat.requestPermissions(MainActivity.this,
-                                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                                            100);
-                                }
-                            })
-                            .create()
-                            .show();
-                }
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    Toast.makeText(context, R.string.error_no_gps, Toast.LENGTH_LONG).show();
+                if (canUseLocation) {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        if(locationRequestCount < 3) { //Don't annoy the user
+                            new AlertDialog.Builder(context)
+                                    .setTitle(R.string.title_location_permission)
+                                    .setMessage(R.string.text_location_permission)
+                                    .setNegativeButton(android.R.string.no, (dialogInterface, i) -> {
+                                        //Disable prompts
+                                        locationRequestCount = 100;
+                                    }).setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                                        //Prompt the user once explanation has been shown
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+                                    })
+                                    .create()
+                                    .show();
+                        }
+                        locationRequestCount++;
+                    } else {
+                        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                            Toast.makeText(context, R.string.error_no_gps, Toast.LENGTH_LONG).show();
+                        }
+                    }
                 }
                 if (origin.contains("google.com")) {
                     callback.invoke(origin, true, false);

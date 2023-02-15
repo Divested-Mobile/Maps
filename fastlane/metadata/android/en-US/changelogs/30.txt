@@ -1,0 +1,3 @@
+* Proper location requesting and handling thanks to @woheller69
+* Ability to share location to another maps app thanks to @woheller69
+* Opted out of WebView telemetry for Google/Chrome WebView providers thanks to @woheller69
