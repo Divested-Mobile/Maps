@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.spotco.maps">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -73,6 +75,8 @@
                 <data android:scheme="geo" />
             </intent-filter>
         </activity>
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+            android:value="true" />
     </application>
 
 </manifest>
