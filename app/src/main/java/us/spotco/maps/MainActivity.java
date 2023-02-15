@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
     private WebView mapsWebView = null;
     private WebSettings mapsWebSettings = null;
     private CookieManager mapsCookieManager = null;
-    private Context context = this;
+    private final Context context = this;
     private LocationManager locationManager;
 
     private static final ArrayList<String> allowedDomains = new ArrayList<String>();
@@ -73,9 +73,9 @@ public class MainActivity extends Activity {
     private static LocationListener locationListenerGPS;
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if (locationListenerGPS!=null) removeLocationListener();
+        if (locationListenerGPS != null) removeLocationListener();
     }
 
     @Override
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
         //Give location access
         mapsWebView.setWebChromeClient(new WebChromeClient() {
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(context)
                             .setTitle(R.string.title_location_permission)
                             .setMessage(R.string.text_location_permission)
@@ -152,8 +152,8 @@ public class MainActivity extends Activity {
                             .create()
                             .show();
                 }
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                    Toast.makeText(context,R.string.error_no_gps,Toast.LENGTH_LONG).show();
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    Toast.makeText(context, R.string.error_no_gps, Toast.LENGTH_LONG).show();
                 }
                 if (origin.contains("google.com")) {
                     callback.invoke(origin, true, false);
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
                 }
                 for (String url : blockedURLs) {
                     if (request.getUrl().toString().contains(url)) {
-                        if(request.getUrl().toString().contains("/log204?")) {
+                        if (request.getUrl().toString().contains("/log204?")) {
                             Log.d(TAG, "[shouldInterceptRequest][ON DENYLIST] Blocked access to a log204 request");
                         } else {
                             Log.d(TAG, "[shouldInterceptRequest][ON DENYLIST] Blocked access to " + request.getUrl().toString());
@@ -204,6 +204,7 @@ public class MainActivity extends Activity {
                 }
                 return null;
             }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if (request.getUrl().toString().equals("about:blank")) {
@@ -393,14 +394,14 @@ public class MainActivity extends Activity {
     }
 
     private void removeLocationListener() {
-        if (locationListenerGPS!=null) {
+        if (locationListenerGPS != null) {
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            if (locationListenerGPS!=null) locationManager.removeUpdates(locationListenerGPS);
+            if (locationListenerGPS != null) locationManager.removeUpdates(locationListenerGPS);
         }
-        locationListenerGPS=null;
+        locationListenerGPS = null;
     }
 
-    private void initShareLinkListener(){
+    private void initShareLinkListener() {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboard.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
             @Override
