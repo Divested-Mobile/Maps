@@ -63,6 +63,17 @@
 
                 <data
                     android:scheme="https"
+                    android:host="maps.app.goo.gl" />
+            </intent-filter>
+
+            <intent-filter android:label="@string/intent_string">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
                     android:host="goo.gl"
                     android:pathPrefix="/maps" />
             </intent-filter>
