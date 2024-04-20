@@ -1,1 +1,1 @@
-Este é uma versão restrita do Google Maps que é embrulhada no WebView. É feita para ser usada quando o OpenStreetMap não é suficiente.
+Este é uma versão restrita do Google Maps que é embrulhada no WebView. Feita para ser usada quando o OpenStreetMap não é suficiente.
