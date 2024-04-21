@@ -1,0 +1,2 @@
+* Add icon for fastlane
+* Handle maps.app.goo.gl thanks to @ghost
