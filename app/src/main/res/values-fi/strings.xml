@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="intent_string">Avaa rajoitettuun verkkonäkymään</string>
+    <string name="title_location_permission">Sijainnin salliminen</string>
+    <string name="text_location_permission">Anna sijaintilupa ja paina painiketta uudelleen.</string>
+    <string name="error_no_gps">Aktivoi GPS</string>
+    <string name="no_app_installed">Sovellusta ei ole asennettu</string>
+</resources>
