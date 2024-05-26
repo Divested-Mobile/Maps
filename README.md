@@ -34,6 +34,7 @@ Credits
 - @ruanon for the Brazilian Portuguese fastlane metadata
 - @lucasmz for the Portuguese fastlane metadata
 - @lucasmz for Portuguese translation
+- @gallegonovato for the Spanish translation
 - R Raj for the sharing intent support
 - Icons: Google/Android/AOSP, License: Apache 2.0, https://google.github.io/material-design-icons/
 
