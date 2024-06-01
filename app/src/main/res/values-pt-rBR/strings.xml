@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">GMaps WV</string>
+    <string name="intent_string">Abrir em WebView restrito</string>
+    <string name="title_location_permission">Permissão de localização</string>
+    <string name="text_location_permission">Conceda a permissão de localização e toque no botão novamente.</string>
+    <string name="error_no_gps">Ative o GPS</string>
+    <string name="no_app_installed">Nenhum app instalado</string>
+</resources>
