@@ -335,20 +335,22 @@ public class MainActivity extends Activity {
     private static void initURLs() {
         //Allowed Domains
         allowedDomains.add("apis.google.com");
-        allowedDomains.add("fonts.gstatic.com");
-        allowedDomains.add("maps.google.com");
-        allowedDomains.add("maps.gstatic.com");
-        allowedDomains.add("ssl.gstatic.com");
-        allowedDomains.add("www.google.com");
-        allowedDomains.add("www.gstatic.com");
         allowedDomains.add("consent.google.com");
         allowedDomains.add("consent.youtube.com"); //XXX: Maybe not required?
-        allowedDomains.add("maps.google.com");
+        allowedDomains.add("fonts.gstatic.com");
+        //allowedDomains.add("goo.gl");
+        allowedDomains.add("google.com");
         allowedDomains.add("khms0.google.com");
         allowedDomains.add("khms1.google.com");
         allowedDomains.add("khms2.google.com");
         allowedDomains.add("khms3.google.com");
+        allowedDomains.add("maps.app.goo.gl"");
+        allowedDomains.add("maps.google.com");
+        allowedDomains.add("maps.gstatic.com");
+        allowedDomains.add("ssl.gstatic.com");
         allowedDomains.add("streetviewpixels-pa.googleapis.com");
+        allowedDomains.add("www.google.com");
+        allowedDomains.add("www.gstatic.com");
         allowedDomainsStart.add("consent.google."); //TODO: better cctld handling
         allowedDomainsEnd.add(".googleusercontent.com");
 
