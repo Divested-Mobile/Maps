@@ -344,7 +344,7 @@ public class MainActivity extends Activity {
         allowedDomains.add("khms1.google.com");
         allowedDomains.add("khms2.google.com");
         allowedDomains.add("khms3.google.com");
-        allowedDomains.add("maps.app.goo.gl"");
+        allowedDomains.add("maps.app.goo.gl");
         allowedDomains.add("maps.google.com");
         allowedDomains.add("maps.gstatic.com");
         allowedDomains.add("ssl.gstatic.com");
