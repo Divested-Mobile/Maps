@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">GMaps WV</string>
+    <string name="intent_string">Im eingeschränktem Webview öffnen</string>
+    <string name="title_location_permission">Standortfreigabe</string>
+    <string name="text_location_permission">Bitte die Standordfreigabe gewähren und die Funktion erneut aufrufen.</string>
+    <string name="error_no_gps">Bitte GPS aktivieren</string>
+    <string name="no_app_installed">Keine APP installiert</string>
+</resources>
