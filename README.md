@@ -32,14 +32,19 @@ Credits
 - @woheller69 for adding proper location support
 - @woheller69 for adding location sharing to other map apps
 - @woheller69 for disabling WebView telemetry
-- Diego Sanguinetti for the Spanish fastlane metadata
-- Marcin Mikołajczak for the Polish fastlane metadata
-- @ruanon for the Brazilian Portuguese fastlane metadata
-- @lucasmz for the Portuguese fastlane metadata
-- @lucasmz for Portuguese translation
-- @gallegonovato for the Spanish translation
 - R Raj for the sharing intent support
 - Icons: Google/Android/AOSP, License: Apache 2.0, https://google.github.io/material-design-icons/
+
+Translations
+------------
+- Chinese (Simplified): Crit
+- Croatian: lukapiplica
+- Finnish: huuhaa
+- German: thereisnoanderson
+- Polish: Eryk Michalak, Marcin Mikołajczak
+- Portuguese (Brazil): lucasmz-dev, ruanon
+- Spanish: Diego Sanguinetti, gallegonovato
+- Ukrainian: Fqwe1
 
 Donate
 -------

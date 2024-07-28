@@ -1,0 +1,8 @@
+Translation updates thanks to the following contributors:
+- Chinese (Simplified): Crit
+- Croatian: lukapiplica
+- Finnish: huuhaa
+- German: thereisnoanderson
+- Polish: Eryk Michalak
+- Portuguese (Brazil): lucasmz-dev
+- Ukrainian: Fqwe1

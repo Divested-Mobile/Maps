@@ -6,9 +6,9 @@ android {
         applicationId "us.spotco.maps"
         minSdkVersion 21
         targetSdkVersion 32
-        versionCode 35
-        versionName "1.10"
-        resConfigs 'en', 'pt', 'es'
+        versionCode 36
+        versionName "1.11"
+        resConfigs 'en', 'pt', 'es', 'de', 'fi', 'hr', 'pl', 'pt-rBR', 'uk', 'zh-rCN'
     }
     buildTypes {
         debug {
