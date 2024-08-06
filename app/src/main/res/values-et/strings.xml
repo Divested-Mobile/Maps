@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">GMaps veebivaade</string>
+    <string name="intent_string">Ava piiratud veebivaatena</string>
+    <string name="title_location_permission">Õigused asukoha tuvastamiseks</string>
+    <string name="text_location_permission">Palun anna rakendusele õigused asukoha tuvastamiseks ja vajuta uuesti nuppu.</string>
+    <string name="error_no_gps">Palun lülita GPS sisse</string>
+    <string name="no_app_installed">Rakendust pole paigaldatud</string>
+</resources>
