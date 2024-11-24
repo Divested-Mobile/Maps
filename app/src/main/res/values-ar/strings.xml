@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">GMaps WV</string>
+    <string name="title_location_permission">إذن الموقع</string>
+    <string name="error_no_gps">الرجاء تفعيل GPS</string>
+    <string name="intent_string">افتح في webview مقيد</string>
+    <string name="no_app_installed">لم يتم تثبيت أي تطبيق</string>
+    <string name="text_location_permission">يُرجى منح إذن الموقع ثم اضغط على الزر مرة أخرى.</string>
+</resources>
