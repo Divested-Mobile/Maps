@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">GMaps WV</string>
+    <string name="intent_string">Buka dengan tampilan-web terbatas</string>
+    <string name="title_location_permission">Izinkan akses lokasi</string>
+    <string name="text_location_permission">Mohon berikan izin akses lokasi dan tekan tombol kembali.</string>
+    <string name="error_no_gps">Mohon aktifkan GPS</string>
+    <string name="no_app_installed">Aplikasi tidak terinstal</string>
+</resources>
