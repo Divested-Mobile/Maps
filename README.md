@@ -37,12 +37,21 @@ Credits
 
 Translations
 ------------
+- Arabic: jonnysemon
+- Bulgarian: trunars
 - Chinese (Simplified): Crit
 - Croatian: lukapiplica
+- Czech: Fjuro
+- Estonian: Priit Jõerüüt
 - Finnish: huuhaa
+- French: cultrarius
+- Galician: josé m
 - German: thereisnoanderson
+- Indonesian: Adrien N
+- Italian: Dark Space
 - Polish: Eryk Michalak, Marcin Mikołajczak
 - Portuguese (Brazil): lucasmz-dev, ruanon
+- Russian: maz1lovo, XblateX
 - Spanish: Diego Sanguinetti, gallegonovato
 - Ukrainian: Fqwe1
 

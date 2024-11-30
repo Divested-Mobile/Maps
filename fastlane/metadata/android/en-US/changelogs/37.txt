@@ -1,0 +1,10 @@
+Translation updates thanks to the following contributors:
+- Arabic: jonnysemon
+- Bulgarian: trunars
+- Czech: Fjuro
+- Estonian: Priit Jõerüüt
+- French: cultrarius
+- Galician: josé m
+- Indonesian: Adrien N
+- Italian: Dark Space
+- Russian: maz1lovo, XblateX
