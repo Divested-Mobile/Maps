@@ -3,4 +3,7 @@
     <string name="intent_string">Открыть в ограниченном веб-просмотре</string>
     <string name="title_location_permission">Разрешение на местоположение</string>
     <string name="error_no_gps">Пожалуйста, активируйте GPS</string>
+    <string name="app_name">GMaps WV</string>
+    <string name="text_location_permission">Пожалуйста, дайте разрешение на определение местоположения и нажмите кнопку еще раз.</string>
+    <string name="no_app_installed">Приложение не установлено</string>
 </resources>
