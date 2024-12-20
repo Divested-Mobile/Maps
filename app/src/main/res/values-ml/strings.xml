@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="title_location_permission">സ്ഥാന അനുമതി</string>
+    <string name="error_no_gps">ദയവായി GPS സജീവമാക്കുക</string>
+    <string name="intent_string">നിയന്ത്രിത വെബ്‌വ്യൂവിൽ തുറക്കുക</string>
+    <string name="text_location_permission">സ്ഥാന അനുമതി നൽകി വീണ്ടും ബട്ടൺ അമർത്തുക.</string>
+</resources>
